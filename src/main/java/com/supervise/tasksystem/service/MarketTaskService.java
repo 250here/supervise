@@ -5,9 +5,11 @@ import com.supervise.tasksystem.dao.MarketTaskItemDao;
 import com.supervise.tasksystem.model.MarketTask;
 import com.supervise.tasksystem.model.MarketTaskItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MarketTaskService {
     @Autowired
     MarketTaskDao marketTaskDao;
