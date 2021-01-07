@@ -3,6 +3,7 @@ package com.supervise.tasksystem.dao;
 import com.supervise.tasksystem.model.Expert;
 import com.supervise.tasksystem.model.Market;
 import com.supervise.tasksystem.model.MarketTask;
+import com.supervise.tasksystem.service.MarketTaskService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +26,11 @@ class MarketTaskTest {
 
     @Test
     void testFindById(){
-        MarketTask marketTask = marketTaskDao.findAll().get(0);
-        assertEquals(1,marketTask.getMarketTaskId());
-
-
+//        MarketTask marketTask = marketTaskDao.findAll().get(0);
+//        assertEquals(1,marketTask.getMarketTaskId());
+        MarketTaskService marketTaskService = new MarketTaskService();
+        System.out.println(marketTaskService.getUnfinishedMarketTaskItems(1));
     }
-
-
-
 
     @AfterEach
     void tearDown() {
