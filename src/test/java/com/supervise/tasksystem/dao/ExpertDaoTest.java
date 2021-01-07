@@ -1,5 +1,6 @@
 package com.supervise.tasksystem.dao;
 
+import com.supervise.tasksystem.model.Expert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,8 @@ class ExpertDaoTest {
 
     @Test
     void testFindById(){
+        Expert expert=expertDao.findById(1).get();
+        assertEquals("dog", expert.getExpertName());
         assertTrue(expertDao.existsById(1));
     }
 

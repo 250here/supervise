@@ -13,6 +13,7 @@ import java.util.List;
 public class MarketTask {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "MARKET_TASK_ID")
     int marketTaskId;
     boolean isFinished;
     @ManyToOne(cascade=CascadeType.ALL)
@@ -21,6 +22,6 @@ public class MarketTask {
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "MARKET_ID")
     Market market;
-    @OneToMany(mappedBy = "MARKET_TASK_ITEM_ID")
+    @OneToMany(mappedBy = "marketTaskItemId")
     List<MarketTaskItem> marketTaskItems;
 }

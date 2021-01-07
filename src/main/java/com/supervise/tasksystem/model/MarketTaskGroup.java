@@ -18,6 +18,6 @@ public class MarketTaskGroup {
     Date deadline;
     @Column(length = 50)
     String taskDescription;
-    @OneToMany(mappedBy = "MARKET_TASK_GROUP_ID")
+    @OneToMany(mappedBy = "marketTaskGroup")
     List<MarketTask> marketTasks;
 }

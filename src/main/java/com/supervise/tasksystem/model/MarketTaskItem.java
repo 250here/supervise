@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="MARKET_TASK")
+@Table(name="MARKET_TASK_ITEM")
 @Getter
 @Setter
 public class MarketTaskItem {

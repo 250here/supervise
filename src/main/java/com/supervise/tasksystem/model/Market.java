@@ -18,6 +18,6 @@ public class Market {
     String marketName;
     @Column(length = 50)
     String principal;
-    @OneToMany(mappedBy = "MARKET_TASK_ID")
+    @OneToMany(mappedBy = "marketTaskId")
     List<MarketTask> marketTasks;
 }
