@@ -16,10 +16,10 @@ public class MarketTask {
     @Column(name = "MARKET_TASK_ID")
     int marketTaskId;
     boolean isFinished;
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "MARKET_TASK_GROUP_ID")
     MarketTaskGroup marketTaskGroup;
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "MARKET_ID")
     Market market;
     @OneToMany(mappedBy = "marketTaskItemId")
