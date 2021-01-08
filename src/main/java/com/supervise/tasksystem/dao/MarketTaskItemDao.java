@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface MarketTaskItemDao extends JpaRepository<MarketTaskItem,Integer> {
     List<MarketTaskItem> findByMarketTaskAndIsFinishedFalse(MarketTask marketTask);
-
+    List<MarketTaskItem> findByMarketTask(MarketTask marketTask);
 }

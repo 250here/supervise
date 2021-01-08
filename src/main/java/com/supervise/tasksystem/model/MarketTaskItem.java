@@ -18,6 +18,9 @@ public class MarketTaskItem {
     boolean isFinished;
     Date finishDate;
     @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_TYPE_ID")
+    ProductType productType;
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "MARKET_TASK_ID")
     MarketTask marketTask;
 }
