@@ -1,5 +1,6 @@
 package com.supervise.tasksystem.service;
 
+import com.supervise.tasksystem.dao.MarketDao;
 import com.supervise.tasksystem.dao.MarketTaskDao;
 import com.supervise.tasksystem.dao.MarketTaskGroupDao;
 import com.supervise.tasksystem.dao.MarketTaskItemDao;
@@ -16,6 +17,8 @@ import java.util.Optional;
 
 @Service
 public class MarketTaskService {
+    @Autowired
+    MarketDao marketDao;
     @Autowired
     MarketTaskDao marketTaskDao;
     @Autowired
@@ -44,7 +47,7 @@ public class MarketTaskService {
 
     public int grade(int marketTaskId,VirtualTime time){          //查看该市场得分情况
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
-        Market market = marketTaskDao.findByMarketTask(marketTask);
+        Market market = marketDao.findByMarketTask(marketTask);
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTask.getMarketTaskGroup().getMarketTaskGroupId()).get();
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
         int grade = 0;

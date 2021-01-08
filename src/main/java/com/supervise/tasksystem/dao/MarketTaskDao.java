@@ -8,5 +8,4 @@ import java.util.List;
 public interface MarketTaskDao extends JpaRepository<MarketTask,Integer> {
     List<MarketTask> findByMarketTaskGroupAndIsFinishedFalse(MarketTaskGroup marketTaskGroup);
     List<MarketTask> findByMarketTaskGroup(MarketTaskGroup marketTaskGroup);
-    Market findByMarketTask(MarketTask marketTask);
 }

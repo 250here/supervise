@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MarketDao extends JpaRepository<Market,Integer> {
 
+    Market findByMarketTask(MarketTask marketTask);
 }

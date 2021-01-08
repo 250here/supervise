@@ -27,13 +27,15 @@ public class MarketTaskItemDaoTest {
     MarketTaskItemDao marketTaskItemDao;
     @Autowired
     MarketTaskItemService marketTaskItemService;
+    @Autowired
+    MarketTaskService marketTaskService;
     @BeforeEach
     void setUp() {
     }
 
     @Test
     void testFindById(){
-        MarketTaskItem marketTaskItem = marketTaskItemService.getUnfinishedMarketTaskItems(1).get(0);
+        MarketTaskItem marketTaskItem = marketTaskService.getUnfinishedMarketTaskItems(1).get(0);
         Hibernate.initialize(marketTaskItem);
         assertEquals(1,marketTaskItem.getMarketTaskItemId());
 

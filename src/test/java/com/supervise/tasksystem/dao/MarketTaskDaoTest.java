@@ -28,14 +28,14 @@ class MarketTaskDaoTest {
     MarketTaskItemDao marketTaskItemDao;
     @Autowired
     MarketTaskService marketTaskService;
+    @Autowired
+    MarketTaskService marketTaskGroupService;
     @BeforeEach
     void setUp() {
     }
 
     @Test
     void testFindById(){
-        List<MarketTask> marketTasks= marketTaskService.getUnfinishedMarketTasks(1);
-        System.out.println(marketTasks);
 //        Hibernate.initialize(marketTaskItem);
 //        assertEquals(1,marketTaskItem.getMarketTaskItemId());
 
