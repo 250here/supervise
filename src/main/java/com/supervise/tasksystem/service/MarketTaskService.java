@@ -28,6 +28,7 @@ public class MarketTaskService {
 
 
     public void addMarketTaskItem(MarketTask marketTask, ProductType productType){        //添加检测项
+
         MarketTaskItem marketTaskItem = new MarketTaskItem();
         marketTaskItem.setFinished(false);
         marketTaskItem.setMarketTask(marketTask);
@@ -47,7 +48,7 @@ public class MarketTaskService {
 
     public int grade(int marketTaskId,VirtualTime time){          //查看该市场得分情况
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
-        Market market = marketDao.findByMarketTask(marketTask);
+        Market market = marketTask.getMarket();
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTask.getMarketTaskGroup().getMarketTaskGroupId()).get();
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
         int grade = 0;

@@ -4,6 +4,7 @@ import com.supervise.tasksystem.model.MarketTask;
 import com.supervise.tasksystem.model.MarketTaskItem;
 import com.supervise.tasksystem.service.MarketTaskItemService;
 import com.supervise.tasksystem.service.MarketTaskService;
+import com.supervise.tasksystem.util.VirtualTime;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,25 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 
-public class MarketTaskItemDaoTest {
-    @Autowired
-    MarketTaskDao marketTaskDao;
+public class MarketTaskItemTest {
     @Autowired
     MarketTaskItemDao marketTaskItemDao;
     @Autowired
     MarketTaskItemService marketTaskItemService;
-    @Autowired
-    MarketTaskService marketTaskService;
-    @BeforeEach
     void setUp() {
     }
 
     @Test
     void testFindById(){
-        MarketTaskItem marketTaskItem = marketTaskService.getUnfinishedMarketTaskItems(1).get(0);
-        Hibernate.initialize(marketTaskItem);
-        assertEquals(1,marketTaskItem.getMarketTaskItemId());
-
+        MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
+        VirtualTime time = new VirtualTime("2021-01-10 00:00:00");
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem,time.getDate());
 
     }
 

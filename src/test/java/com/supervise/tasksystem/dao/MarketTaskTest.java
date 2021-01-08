@@ -3,8 +3,10 @@ package com.supervise.tasksystem.dao;
 import com.supervise.tasksystem.model.MarketTask;
 import com.supervise.tasksystem.model.MarketTaskGroup;
 import com.supervise.tasksystem.model.MarketTaskItem;
+import com.supervise.tasksystem.model.ProductType;
 import com.supervise.tasksystem.service.MarketTaskItemService;
 import com.supervise.tasksystem.service.MarketTaskService;
+import com.supervise.tasksystem.util.VirtualTime;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +23,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 
-class MarketTaskDaoTest {
+class MarketTaskTest {
     @Autowired
     MarketTaskDao marketTaskDao;
     @Autowired
-    MarketTaskItemDao marketTaskItemDao;
+    ProductTypeDao productTypeDao;
     @Autowired
     MarketTaskService marketTaskService;
     @Autowired
@@ -36,10 +38,16 @@ class MarketTaskDaoTest {
 
     @Test
     void testFindById(){
-//        Hibernate.initialize(marketTaskItem);
-//        assertEquals(1,marketTaskItem.getMarketTaskItemId());
+        List<MarketTaskItem> marketTaskItemList = marketTaskService.getUnfinishedMarketTaskItems(1);
 
+        MarketTask marketTask = marketTaskDao.findById(1).get();
+        VirtualTime time = new VirtualTime("2021-01-10 00:00:00");
+        int grade = marketTaskService.grade(marketTask.getMarketTaskId(),time);
 
+        ProductType productType = productTypeDao.findById(1).get();
+        marketTaskService.addMarketTaskItem(marketTask,productType);
+
+        assertEquals(0,grade);
     }
 
 
