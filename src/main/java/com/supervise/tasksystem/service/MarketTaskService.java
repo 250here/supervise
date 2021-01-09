@@ -57,8 +57,8 @@ public class MarketTaskService {
 //            System.out.println(market.getMarketName() +" 得分：" + grade);
         }
 
-        if((hasUnfinishedItem(marketTask)==false &&getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime() <= 1728000000 && getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime()>0)
-           || (hasUnfinishedItem(marketTask)==true && time.getDate().getTime() - marketTaskGroup.getDeadline().getTime() <= 1728000000 && time.getDate().getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){
+        if((hasUnfinishedItem(marketTask)==false && getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime()>0)
+           || (hasUnfinishedItem(marketTask)==true && time.getDate().getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){       //未按时完成
             grade -= 10;
         }
         if((hasUnfinishedItem(marketTask)==false &&getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)

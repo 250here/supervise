@@ -52,8 +52,8 @@ public class ExpertTaskService {
             grade +=10;
 //            System.out.println(market.getMarketName() +" 得分：" + grade);
         }
-        if((hasUnfinishedItem(expertTask)==false &&getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime() <= 1728000000 && getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime()>0)
-                || (hasUnfinishedItem(expertTask)==true && time.getDate().getTime() - expertTaskGroup.getDeadline().getTime() <= 1728000000 && time.getDate().getTime() - expertTaskGroup.getDeadline().getTime() > 0) ){
+        if((hasUnfinishedItem(expertTask)==false && getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime()>0)          //未按时完成
+                || (hasUnfinishedItem(expertTask)==true && time.getDate().getTime() - expertTaskGroup.getDeadline().getTime() > 0) ){
             grade -= 10;
         }
         if((hasUnfinishedItem(expertTask)==false &&getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)
