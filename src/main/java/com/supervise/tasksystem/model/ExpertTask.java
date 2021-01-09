@@ -21,6 +21,6 @@ public class ExpertTask {
     @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "EXPERT_ID")
     Expert expert;
-    @OneToMany(mappedBy = "expertTaskItemId")
+    @OneToMany(mappedBy = "expertTask")
     List<ExpertTaskItem> expertTaskItems;
 }

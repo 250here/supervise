@@ -51,7 +51,7 @@ class MarketTaskTest {
         MarketTask marketTask = marketTaskDao.findById(1).get();
         List<MarketTaskItem> marketTaskItemList = marketTaskService.getUnfinishedMarketTaskItems(marketTask.getMarketTaskId());
 
-        assertEquals(1,marketTaskItemList.size());
+        assertEquals(2,marketTaskItemList.size());
     }
 
     @Test

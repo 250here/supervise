@@ -22,6 +22,6 @@ public class MarketTask {
     @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "MARKET_ID")
     Market market;
-    @OneToMany(mappedBy = "marketTaskItemId")
+    @OneToMany(mappedBy = "marketTask")
     List<MarketTaskItem> marketTaskItems;
 }
