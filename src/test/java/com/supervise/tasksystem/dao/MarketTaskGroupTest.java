@@ -45,6 +45,9 @@ public class MarketTaskGroupTest {
     void testMakeMarketTaskGroup() {
         VirtualTime time = new VirtualTime("2021-1-12 00:00:00");
         marketTaskGroupService.makeMarketTaskGroup(time.getDate());
+
+        List<MarketTaskGroup> marketTaskGroupsList = marketTaskGroupDao.findAll();
+        assertEquals(2,marketTaskGroupsList.size());
     }
 
     @Test
@@ -55,7 +58,7 @@ public class MarketTaskGroupTest {
         marketTaskItemList.add(marketTaskItemDao.findById(1).get());
         marketTaskGroupService.addMarketTask(marketTaskGroup,market,marketTaskItemList);
 
-
+        assertEquals(2,marketTaskGroup.getMarketTasks().size());
     }
 
     @Test

@@ -48,9 +48,6 @@ public class MarketTaskGroupService {
     }
 
     public List<MarketTask> getMarketTasks(MarketTaskGroup marketTaskGroup){          //获得任务组下的所有任务
-//        Optional<MarketTask> marketTaskOptional = marketTaskDao.findByMarketTaskGroup(marketTaskGroup);
-        List<MarketTask> marketTaskList =  marketTaskDao.findByMarketTaskGroup(marketTaskGroup);
-        marketTaskGroup.setMarketTasks(marketTaskList);
-        return marketTaskList;
+        return marketTaskGroup.getMarketTasks();
     }
 }

@@ -37,20 +37,33 @@ class MarketTaskTest {
     }
 
     @Test
-    void testFindById(){
+    void testAddMarketTaskItem(){
         List<MarketTaskItem> marketTaskItemList = marketTaskService.getUnfinishedMarketTaskItems(1);
+        MarketTask marketTask = marketTaskDao.findById(1).get();
+        ProductType productType = productTypeDao.findById(1).get();
+        marketTaskService.addMarketTaskItem(marketTask,productType);
 
+        assertEquals(2,marketTask.getMarketTaskItems().size());
+
+    }
+    @Test
+    void testGetUnfinishedMarketTaskItems(){
+        MarketTask marketTask = marketTaskDao.findById(1).get();
+        List<MarketTaskItem> marketTaskItemList = marketTaskService.getUnfinishedMarketTaskItems(marketTask.getMarketTaskId());
+
+        assertEquals(1,marketTaskItemList.size());
+    }
+
+    @Test
+    void testGrade(){
         MarketTask marketTask = marketTaskDao.findById(1).get();
         VirtualTime time = new VirtualTime("2021-01-10 00:00:00");
         int grade = marketTaskService.grade(marketTask.getMarketTaskId(),time);
 
-        ProductType productType = productTypeDao.findById(1).get();
-        marketTaskService.addMarketTaskItem(marketTask,productType);
+
 
         assertEquals(0,grade);
     }
-
-
 
 
     @AfterEach

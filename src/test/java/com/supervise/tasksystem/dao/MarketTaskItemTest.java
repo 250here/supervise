@@ -36,7 +36,16 @@ public class MarketTaskItemTest {
         marketTaskItemService.completeMarketTaskItem(marketTaskItem,time.getDate());
 
     }
+    @Test
+    void testCompleteMarketTaskItem(){
+        VirtualTime time = new VirtualTime("2021-1-15 00:00:00");
 
+        MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem,time.getDate());
+
+        assertEquals(true,marketTaskItem.isFinished());
+        assertEquals(true,marketTaskItem.getMarketTask().isFinished());
+    }
 
 
 
