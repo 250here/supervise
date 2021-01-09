@@ -6,25 +6,25 @@ import java.util.Date;
 
 public class VirtualTime {
     private static Date date = new Date();
-    public VirtualTime(String s){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-        this.date = format.parse(s);
-    }catch (ParseException e){
-            e.printStackTrace();
-        }
-    }
-    public Date getDate() {
+//    public VirtualTime(String s){
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        try {
+//        this.date = format.parse(s);
+//    }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+//    }
+    public static Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public static void setDate(Date date) {
+        date = date;
     }
-    public void seDate(String s){
+    public static void seDate(String s){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            this.date = format.parse(s);
+            date = format.parse(s);
         }catch (ParseException e){
             e.printStackTrace();
         }
