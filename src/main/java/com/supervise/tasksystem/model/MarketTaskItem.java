@@ -17,10 +17,10 @@ public class MarketTaskItem {
     int unqualifiedNumber;
     boolean isFinished;
     Date finishDate;
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "PRODUCT_TYPE_ID")
     ProductType productType;
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "MARKET_TASK_ID")
     MarketTask marketTask;
 }

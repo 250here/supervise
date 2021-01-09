@@ -66,7 +66,7 @@ public class MarketTaskGroupTest {
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(1).get();
         List<MarketTask> marketTaskList = marketTaskGroupService.getMarketTasks(marketTaskGroup);
 
-        assertEquals(1,marketTaskList.size());
+        assertEquals(2,marketTaskList.size());
     }
 
     @AfterEach

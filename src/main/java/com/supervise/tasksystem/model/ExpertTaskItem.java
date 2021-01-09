@@ -17,7 +17,7 @@ public class ExpertTaskItem {
      int unqualifiedNumber;
      boolean isFinished;
      Date finishDate;
-     @ManyToOne(cascade=CascadeType.ALL)
+     @ManyToOne(cascade=CascadeType.REFRESH)
      @JoinColumn(name = "EXPERT_TASK_ID")
      ExpertTask expertTask;
 }
