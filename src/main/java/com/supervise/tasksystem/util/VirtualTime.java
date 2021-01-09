@@ -19,7 +19,7 @@ public class VirtualTime {
     }
 
     public static void setDate(Date date) {
-        date = date;
+        VirtualTime.date = date;
     }
     public static void seDate(String s){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

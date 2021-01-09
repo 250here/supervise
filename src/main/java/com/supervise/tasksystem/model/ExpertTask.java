@@ -13,7 +13,7 @@ import java.util.List;
 public class ExpertTask {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    int ExpertTaskId;
+    int expertTaskId;
     boolean isFinished;
     @ManyToOne(cascade=CascadeType.REFRESH)
     @JoinColumn(name = "EXPERT_TASK_GROUP_ID")
