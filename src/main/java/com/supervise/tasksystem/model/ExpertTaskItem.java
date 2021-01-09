@@ -18,6 +18,9 @@ public class ExpertTaskItem {
      boolean isFinished;
      Date finishDate;
      @ManyToOne(cascade=CascadeType.REFRESH)
+     @JoinColumn(name = "PRODUCT_TYPE_ID")
+     ProductType productType;
+     @ManyToOne(cascade=CascadeType.REFRESH)
      @JoinColumn(name = "EXPERT_TASK_ID")
      ExpertTask expertTask;
 }
