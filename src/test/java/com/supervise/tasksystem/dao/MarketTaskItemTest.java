@@ -32,16 +32,15 @@ public class MarketTaskItemTest {
     @Test
     void testFindById(){
         MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
-        VirtualTime time = new VirtualTime("2021-01-10 00:00:00");
-        marketTaskItemService.completeMarketTaskItem(marketTaskItem,time.getDate());
+
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem,VirtualTime.getDate());
 
     }
     @Test
     void testCompleteMarketTaskItem(){
-        VirtualTime time = new VirtualTime("2021-1-15 00:00:00");
 
         MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
-        marketTaskItemService.completeMarketTaskItem(marketTaskItem,time.getDate());
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem,VirtualTime.getDate());
 
         assertEquals(true,marketTaskItem.isFinished());
         assertEquals(true,marketTaskItem.getMarketTask().isFinished());

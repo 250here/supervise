@@ -42,25 +42,29 @@ public class ExpertTaskService {
         return expertTaskItemDao.findByExpertTaskAndIsFinishedFalse(expertTask);
     }
 
-    public int grade(int expertTaskId, VirtualTime time){          //查看某专家得分情况
+    public String grade(int expertTaskId, Date time){          //查看某专家得分情况
         ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
         Expert expert = expertTask.getExpert();
         ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTask.getExpertTaskGroup().getExpertTaskGroupId()).get();
         List<ExpertTaskItem> expertTaskItemList = expertTask.getExpertTaskItems();
         int grade = 0;
+        String record = "";
         if(hasUnfinishedItem(expertTask)==false && getLatestDate(expertTask).compareTo(expertTaskGroup.getDeadline())!=1){
             grade +=10;
+            record += expert.getExpertName() + "按时完成，得分：" + grade + "\n";
 //            System.out.println(market.getMarketName() +" 得分：" + grade);
         }
         if((hasUnfinishedItem(expertTask)==false && getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime()>0)          //未按时完成
-                || (hasUnfinishedItem(expertTask)==true && time.getDate().getTime() - expertTaskGroup.getDeadline().getTime() > 0) ){
+                || (hasUnfinishedItem(expertTask)==true && time.getTime() - expertTaskGroup.getDeadline().getTime() > 0) ){
             grade -= 10;
+            record += expert.getExpertName() + "未按时完成，扣10分，得分：" + grade + "\n";
         }
         if((hasUnfinishedItem(expertTask)==false &&getLatestDate(expertTask).getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)
-                ||(hasUnfinishedItem(expertTask)==true && time.getDate().getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
+                ||(hasUnfinishedItem(expertTask)==true && time.getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
             grade -= 20;
+            record += expert.getExpertName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
-        return grade;
+        return record;
     }
 
     public boolean hasUnfinishedItem(ExpertTask expertTask){          //是否有未完成的类别

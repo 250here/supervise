@@ -46,26 +46,30 @@ public class MarketTaskService {
         return marketTaskItemDao.findByMarketTaskAndIsFinishedFalse(marketTask);
     }
 
-    public int grade(int marketTaskId,VirtualTime time){          //查看该市场得分情况
+    public String grade(int marketTaskId,Date time){          //查看该市场得分情况
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         Market market = marketTask.getMarket();
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTask.getMarketTaskGroup().getMarketTaskGroupId()).get();
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
         int grade = 0;
+        String record = "";
         if(hasUnfinishedItem(marketTask)==false && getLatestDate(marketTask).compareTo(marketTaskGroup.getDeadline())!=1){
             grade +=10;
+            record += market.getMarketName() + "按时完成，得分：" + grade + "\n";
 //            System.out.println(market.getMarketName() +" 得分：" + grade);
         }
 
         if((hasUnfinishedItem(marketTask)==false && getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime()>0)
-           || (hasUnfinishedItem(marketTask)==true && time.getDate().getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){       //未按时完成
+           || (hasUnfinishedItem(marketTask)==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){       //未按时完成
             grade -= 10;
+            record += market.getMarketName() + "未按时完成，扣10分，得分：" + grade + "\n";
         }
         if((hasUnfinishedItem(marketTask)==false &&getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)
-            ||(hasUnfinishedItem(marketTask)==true && time.getDate().getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
+            ||(hasUnfinishedItem(marketTask)==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
             grade -= 20;
+            record += market.getMarketName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
-        return grade;
+        return record;
     }
 
     public boolean hasUnfinishedItem(MarketTask marketTask){          //是否有未完成的类别
