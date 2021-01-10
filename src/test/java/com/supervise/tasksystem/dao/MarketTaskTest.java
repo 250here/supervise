@@ -41,7 +41,7 @@ class MarketTaskTest {
         List<MarketTaskItem> marketTaskItemList = marketTaskService.getUnfinishedMarketTaskItems(1);
         MarketTask marketTask = marketTaskDao.findById(1).get();
         ProductType productType = productTypeDao.findById(1).get();
-        marketTaskService.addMarketTaskItem(marketTask,productType);
+        marketTaskService.addMarketTaskItem(marketTask.getMarketTaskId(),productType.getProductTypeId());
 
         assertEquals(2,marketTask.getMarketTaskItems().size());
 
