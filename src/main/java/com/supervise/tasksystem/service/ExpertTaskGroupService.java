@@ -62,7 +62,8 @@ public class ExpertTaskGroupService {
         expertTaskDao.save(expertTask);
     }
 
-    public List<ExpertTask> getExperttTasks(ExpertTaskGroup expertTaskGroup){          //获得任务组下的所有任务
+    public List<ExpertTask> getExperttTasks(int expertTaskGroupId){          //获得任务组下的所有任务
+        ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
         return expertTaskGroup.getExpertTasks();
     }
 

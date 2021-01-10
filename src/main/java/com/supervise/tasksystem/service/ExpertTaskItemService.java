@@ -18,7 +18,8 @@ public class ExpertTaskItemService {
     @Autowired
     ExpertTaskService expertTaskService;
 
-    public void completeExpertTaskItem(ExpertTaskItem expertTaskItem, Date date){        //完成检测项
+    public void completeExpertTaskItem(int expertTaskItemId, Date date){        //完成检测项
+        ExpertTaskItem expertTaskItem = expertTaskItemDao.findById(expertTaskItemId).get();
         expertTaskItem.setFinished(true);
         expertTaskItem.setFinishDate(date);
         expertTaskItemDao.save(expertTaskItem);

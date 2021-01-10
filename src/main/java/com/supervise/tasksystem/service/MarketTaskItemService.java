@@ -21,7 +21,8 @@ public class MarketTaskItemService {
     @Autowired
     MarketTaskService marketTaskService;
 
-    public void completeMarketTaskItem(MarketTaskItem marketTaskItem, Date date){        //完成检测项
+    public void completeMarketTaskItem(int marketTaskItemId, Date date){        //完成检测项
+        MarketTaskItem marketTaskItem = marketTaskItemDao.findById(marketTaskItemId).get();
         marketTaskItem.setFinished(true);
         marketTaskItem.setFinishDate(date);
         marketTaskItemDao.save(marketTaskItem);

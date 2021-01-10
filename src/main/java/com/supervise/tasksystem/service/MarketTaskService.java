@@ -1,9 +1,6 @@
 package com.supervise.tasksystem.service;
 
-import com.supervise.tasksystem.dao.MarketDao;
-import com.supervise.tasksystem.dao.MarketTaskDao;
-import com.supervise.tasksystem.dao.MarketTaskGroupDao;
-import com.supervise.tasksystem.dao.MarketTaskItemDao;
+import com.supervise.tasksystem.dao.*;
 import com.supervise.tasksystem.model.*;
 import com.supervise.tasksystem.util.VirtualTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +22,13 @@ public class MarketTaskService {
     MarketTaskGroupDao marketTaskGroupDao;
     @Autowired
     MarketTaskItemDao marketTaskItemDao;
+    @Autowired
+    ProductTypeDao productTypeDao;
 
 
-    public void addMarketTaskItem(MarketTask marketTask, ProductType productType){        //添加检测项
+    public void addMarketTaskItem(int marketTaskId, int productTypeId){        //添加检测项
+        MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
+        ProductType productType = productTypeDao.findById(productTypeId).get();
 
         MarketTaskItem marketTaskItem = new MarketTaskItem();
         marketTaskItem.setFinished(false);
@@ -53,26 +54,27 @@ public class MarketTaskService {
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
         int grade = 0;
         String record = "";
-        if(hasUnfinishedItem(marketTask)==false && getLatestDate(marketTask).compareTo(marketTaskGroup.getDeadline())!=1){
+        if(hasUnfinishedItem(marketTask.getMarketTaskId())==false && getLatestDate(marketTask.getMarketTaskId()).compareTo(marketTaskGroup.getDeadline())!=1){
             grade +=10;
             record += market.getMarketName() + "按时完成，得分：" + grade + "\n";
 //            System.out.println(market.getMarketName() +" 得分：" + grade);
         }
 
-        if((hasUnfinishedItem(marketTask)==false && getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime()>0)
-           || (hasUnfinishedItem(marketTask)==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){       //未按时完成
+        if((hasUnfinishedItem(marketTask.getMarketTaskId())==false && getLatestDate(marketTask.getMarketTaskId()).getTime() - marketTaskGroup.getDeadline().getTime()>0)
+           || (hasUnfinishedItem(marketTask.getMarketTaskId())==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 0) ){       //未按时完成
             grade -= 10;
             record += market.getMarketName() + "未按时完成，扣10分，得分：" + grade + "\n";
         }
-        if((hasUnfinishedItem(marketTask)==false &&getLatestDate(marketTask).getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)
-            ||(hasUnfinishedItem(marketTask)==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
+        if((hasUnfinishedItem(marketTask.getMarketTaskId())==false &&getLatestDate(marketTask.getMarketTaskId()).getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)
+            ||(hasUnfinishedItem(marketTask.getMarketTaskId())==true && time.getTime() - marketTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
             grade -= 20;
             record += market.getMarketName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
         return record;
     }
 
-    public boolean hasUnfinishedItem(MarketTask marketTask){          //是否有未完成的类别
+    public boolean hasUnfinishedItem(int marketTaskId){          //是否有未完成的类别
+        MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         List<MarketTaskItem> marketTaskItemList = marketTaskItemDao.findByMarketTask(marketTask);
         for (MarketTaskItem item : marketTaskItemList){
             if(item.isFinished() == false){
@@ -82,7 +84,8 @@ public class MarketTaskService {
         return false;
     }
 
-    public Date getLatestDate(MarketTask marketTask){             //得到最后完成时间
+    public Date getLatestDate(int marketTaskId){             //得到最后完成时间
+        MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
         String s = "1999-01-01 00:00:00";
         Date date;

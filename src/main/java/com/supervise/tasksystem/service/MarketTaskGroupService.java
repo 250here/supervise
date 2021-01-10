@@ -65,7 +65,8 @@ public class MarketTaskGroupService {
         marketTaskDao.save(marketTask);
     }
 
-    public List<MarketTask> getMarketTasks(MarketTaskGroup marketTaskGroup){          //获得任务组下的所有任务
+    public List<MarketTask> getMarketTasks(int marketTaskGroupId){          //获得任务组下的所有任务
+        MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
         return marketTaskGroup.getMarketTasks();
     }
 
