@@ -1,5 +1,6 @@
 package com.supervise.tasksystem.service;
 
+import com.supervise.tasksystem.dao.MarketDao;
 import com.supervise.tasksystem.dao.MarketTaskDao;
 import com.supervise.tasksystem.dao.MarketTaskGroupDao;
 import com.supervise.tasksystem.model.Market;
@@ -20,6 +21,8 @@ public class MarketTaskGroupService {
     MarketTaskGroupDao marketTaskGroupDao;
     @Autowired
     MarketTaskDao marketTaskDao;
+    @Autowired
+    MarketDao marketDao;
 
     public List<MarketTask> getUnfinishedMarketTasks(int marketTaskGroupId){       //查找一组监管任务下未完成的任务
         Optional<MarketTaskGroup> optionalMarketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId);
@@ -30,11 +33,26 @@ public class MarketTaskGroupService {
         }
         return marketTaskDao.findByMarketTaskGroupAndIsFinishedFalse(marketTaskGroup);
     }
-    public void makeMarketTaskGroup(Date deadline){          //新建任务组
+    public MarketTaskGroup makeMarketTaskGroup(Date deadline){          //新建任务组
         MarketTaskGroup marketTaskGroup = new MarketTaskGroup();
         marketTaskGroup.setDeadline(deadline);
         marketTaskGroup.setMarketTasks(new ArrayList<MarketTask>());
         marketTaskGroupDao.save(marketTaskGroup);
+
+        return marketTaskGroup;
+    }
+
+    public void addMarketTask(int marketTaskGroupId, int marketId, List<MarketTaskItem> itemList){
+        MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
+        Market market = marketDao.findById(marketId).get();
+        MarketTask marketTask = new MarketTask();
+
+        marketTask.setFinished(false);
+        marketTask.setMarketTaskGroup(marketTaskGroup);
+        marketTask.setMarket(market);
+        marketTask.setMarketTaskItems(itemList);
+
+        marketTaskDao.save(marketTask);
     }
 
     public void addMarketTask(MarketTaskGroup marketTaskGroup, Market market, List<MarketTaskItem> itemList){    //添加监管任务
@@ -49,5 +67,11 @@ public class MarketTaskGroupService {
 
     public List<MarketTask> getMarketTasks(MarketTaskGroup marketTaskGroup){          //获得任务组下的所有任务
         return marketTaskGroup.getMarketTasks();
+    }
+
+    public List<MarketTaskGroup> getAllMarketTaskGroup(){          //获得所有市场任务组
+        List<MarketTaskGroup> marketTaskGroups = marketTaskGroupDao.findAll();
+
+        return marketTaskGroups;
     }
 }

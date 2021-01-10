@@ -1,11 +1,9 @@
 package com.supervise.tasksystem.service;
 
+import com.supervise.tasksystem.dao.ExpertDao;
 import com.supervise.tasksystem.dao.ExpertTaskDao;
 import com.supervise.tasksystem.dao.ExpertTaskGroupDao;
-import com.supervise.tasksystem.model.Expert;
-import com.supervise.tasksystem.model.ExpertTask;
-import com.supervise.tasksystem.model.ExpertTaskGroup;
-import com.supervise.tasksystem.model.ExpertTaskItem;
+import com.supervise.tasksystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,8 @@ public class ExpertTaskGroupService {
     ExpertTaskGroupDao expertTaskGroupDao;
     @Autowired
     ExpertTaskDao expertTaskDao;
+    @Autowired
+    ExpertDao expertDao;
 
     public List<ExpertTask> getUnfinishedExpertTasks(int expertTaskGroupId){       //查找一组专家监管任务下未完成的任务
         Optional<ExpertTaskGroup> optionalExpertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId);
@@ -30,11 +30,26 @@ public class ExpertTaskGroupService {
         }
         return expertTaskDao.findByExpertTaskGroupAndIsFinishedFalse(expertTaskGroup);
     }
-    public void makeExpertTaskGroup(Date deadline){          //新建任务组
+    public ExpertTaskGroup makeExpertTaskGroup(Date deadline){          //新建任务组
         ExpertTaskGroup expertTaskGroup = new ExpertTaskGroup();
         expertTaskGroup.setDeadline(deadline);
         expertTaskGroup.setExpertTasks(new ArrayList<ExpertTask>());
         expertTaskGroupDao.save(expertTaskGroup);
+
+        return expertTaskGroup;
+    }
+
+    public void addExpertTask(int expertTaskGroupId, int expertId, List<ExpertTaskItem> itemList){
+        ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
+        Expert expert = expertDao.findById(expertId).get();
+        ExpertTask expertTask = new ExpertTask();
+
+        expertTask.setFinished(false);
+        expertTask.setExpertTaskGroup(expertTaskGroup);
+        expertTask.setExpert(expert);
+        expertTask.setExpertTaskItems(itemList);
+
+        expertTaskDao.save(expertTask);
     }
 
     public void addExpertTask(ExpertTaskGroup expertTaskGroup, Expert expert, List<ExpertTaskItem> itemList){    //添加监管任务
@@ -49,5 +64,11 @@ public class ExpertTaskGroupService {
 
     public List<ExpertTask> getExperttTasks(ExpertTaskGroup expertTaskGroup){          //获得任务组下的所有任务
         return expertTaskGroup.getExpertTasks();
+    }
+
+    public List<ExpertTaskGroup> getAllExpertTaskGroup(){          //获得所有专家任务组
+        List<ExpertTaskGroup> expertTaskGroups = expertTaskGroupDao.findAll();
+
+        return expertTaskGroups;
     }
 }
