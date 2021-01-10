@@ -28,7 +28,7 @@ public class MarketTaskItemService {
         marketTaskItemDao.save(marketTaskItem);
 
         MarketTask marketTask = marketTaskItem.getMarketTask();
-        if(marketTaskService.hasUnfinishedItem(marketTask)==false){
+        if(marketTaskService.hasUnfinishedItem(marketTask.getMarketTaskId())==false){
             marketTask.setFinished(true);
             marketTaskDao.save(marketTask);
     }

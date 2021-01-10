@@ -25,7 +25,7 @@ public class ExpertTaskItemService {
         expertTaskItemDao.save(expertTaskItem);
 
         ExpertTask expertTask = expertTaskItem.getExpertTask();
-        if(expertTaskService.hasUnfinishedItem(expertTask)==false){
+        if(expertTaskService.hasUnfinishedItem(expertTask.getExpertTaskId())==false){
             expertTask.setFinished(true);
             expertTaskDao.save(expertTask);
         }
