@@ -17,6 +17,7 @@ public class ExpertTaskItem {
      int unqualifiedNumber;
      boolean isFinished;
      Date finishDate;
+     int marketId;
      @ManyToOne(cascade=CascadeType.REFRESH)
      @JoinColumn(name = "PRODUCT_TYPE_ID")
      ProductType productType;

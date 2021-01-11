@@ -75,4 +75,16 @@ public class MarketTaskGroupService {
 
         return marketTaskGroups;
     }
+
+    public int getUnqualifiedNumberInGroup(int marketTaskGroupId){          //得到市场任务组下所有不合格数
+        MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
+        List<MarketTask> marketTaskList = marketTaskGroup.getMarketTasks();
+        int num = 0;
+        for (MarketTask marketTask : marketTaskList){
+            for (MarketTaskItem marketTaskItem : marketTask.getMarketTaskItems()){
+                num += marketTaskItem.getUnqualifiedNumber();
+            }
+        }
+        return num;
+    }
 }

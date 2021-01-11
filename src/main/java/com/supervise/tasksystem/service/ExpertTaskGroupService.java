@@ -72,4 +72,16 @@ public class ExpertTaskGroupService {
 
         return expertTaskGroups;
     }
+
+    public int getUnqualifiedNumberInGroup(int expertTaskGroupId){              //得到专家任务组下所有不合格数
+        ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
+        List<ExpertTask> expertTaskList = expertTaskGroup.getExpertTasks();
+        int num = 0;
+        for (ExpertTask expertTask : expertTaskList){
+            for (ExpertTaskItem expertTaskItem : expertTask.getExpertTaskItems()){
+                num += expertTaskItem.getUnqualifiedNumber();
+            }
+        }
+        return num;
+    }
 }

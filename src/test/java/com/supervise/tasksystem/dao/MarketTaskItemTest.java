@@ -33,14 +33,14 @@ public class MarketTaskItemTest {
     void testFindById(){
         MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
 
-        marketTaskItemService.completeMarketTaskItem(marketTaskItem.getMarketTaskItemId(),VirtualTime.getDate());
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem.getMarketTaskItemId(),1,VirtualTime.getDate());
 
     }
     @Test
     void testCompleteMarketTaskItem(){
 
         MarketTaskItem marketTaskItem = marketTaskItemDao.findById(1).get();
-        marketTaskItemService.completeMarketTaskItem(marketTaskItem.getMarketTaskItemId(),VirtualTime.getDate());
+        marketTaskItemService.completeMarketTaskItem(marketTaskItem.getMarketTaskItemId(),1,VirtualTime.getDate());
 
         assertEquals(true,marketTaskItem.isFinished());
         assertEquals(true,marketTaskItem.getMarketTask().isFinished());

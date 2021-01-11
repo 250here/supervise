@@ -37,6 +37,16 @@ public class ExpertTaskService {
         expertTaskItemDao.save(expertTaskItem);
     }
 
+    public int getUnqualifiedNumberInTask(int expertTaskId){           //查看任务下不合格数
+        ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
+        List<ExpertTaskItem> expertTaskItemList = expertTask.getExpertTaskItems();
+        int num = 0;
+        for(ExpertTaskItem item: expertTaskItemList){
+            num += item.getUnqualifiedNumber();
+        }
+        return num;
+    }
+
     public List<ExpertTaskItem> getUnfinishedExpertTaskItems(int expertTaskId){                 //查找某专家任务下未完成的类别
         Optional<ExpertTask> expertTaskOptional = expertTaskDao.findById(expertTaskId);
         ExpertTask expertTask = expertTaskOptional.isPresent()?expertTaskOptional.get() : null;

@@ -21,10 +21,11 @@ public class MarketTaskItemService {
     @Autowired
     MarketTaskService marketTaskService;
 
-    public void completeMarketTaskItem(int marketTaskItemId, Date date){        //完成检测项
+    public void completeMarketTaskItem(int marketTaskItemId, int unqualifiedNumber, Date date){        //完成检测项
         MarketTaskItem marketTaskItem = marketTaskItemDao.findById(marketTaskItemId).get();
         marketTaskItem.setFinished(true);
         marketTaskItem.setFinishDate(date);
+        marketTaskItem.setUnqualifiedNumber(unqualifiedNumber);
         marketTaskItemDao.save(marketTaskItem);
 
         MarketTask marketTask = marketTaskItem.getMarketTask();

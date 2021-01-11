@@ -47,6 +47,16 @@ public class MarketTaskService {
         return marketTaskItemDao.findByMarketTaskAndIsFinishedFalse(marketTask);
     }
 
+    public int getUnqualifiedNumberInTask(int marketTaskId){           //查看任务下不合格数
+        MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
+        List<MarketTaskItem> marketTaskItems = marketTask.getMarketTaskItems();
+        int num = 0;
+        for(MarketTaskItem item: marketTaskItems){
+            num += item.getUnqualifiedNumber();
+        }
+        return num;
+    }
+
     public String grade(int marketTaskId,Date time){          //查看该市场得分情况
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         Market market = marketTask.getMarket();
