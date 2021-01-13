@@ -42,7 +42,7 @@ public class MarketTaskGroupService {
         return marketTaskGroup;
     }
 
-    public void addMarketTask(int marketTaskGroupId, int marketId, List<MarketTaskItem> itemList){
+    public MarketTask addMarketTask(int marketTaskGroupId, int marketId, List<MarketTaskItem> itemList){
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
         Market market = marketDao.findById(marketId).get();
         MarketTask marketTask = new MarketTask();
@@ -53,9 +53,10 @@ public class MarketTaskGroupService {
         marketTask.setMarketTaskItems(itemList);
 
         marketTaskDao.save(marketTask);
+        return marketTask;
     }
 
-    public void addMarketTask(MarketTaskGroup marketTaskGroup, Market market, List<MarketTaskItem> itemList){    //添加监管任务
+    public MarketTask addMarketTask(MarketTaskGroup marketTaskGroup, Market market, List<MarketTaskItem> itemList){    //添加监管任务
         MarketTask marketTask = new MarketTask();
         marketTask.setFinished(false);
         marketTask.setMarketTaskGroup(marketTaskGroup);
@@ -63,6 +64,8 @@ public class MarketTaskGroupService {
         marketTask.setMarketTaskItems(itemList);
 
         marketTaskDao.save(marketTask);
+
+        return marketTask;
     }
 
     public List<MarketTask> getMarketTasks(int marketTaskGroupId){          //获得任务组下的所有任务

@@ -25,7 +25,7 @@ public class ExpertTaskService {
     @Autowired
     ProductTypeDao productTypeDao;
 
-    public void addExpertTaskItem(int expertTaskId, int productTypeId){        //添加检测项
+    public ExpertTaskItem addExpertTaskItem(int expertTaskId, int productTypeId){        //添加检测项
         ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
         ProductType productType = productTypeDao.findById(productTypeId).get();
 
@@ -35,6 +35,8 @@ public class ExpertTaskService {
         expertTaskItem.setExpertTask(expertTask);
         expertTaskItem.setProductType(productType);
         expertTaskItemDao.save(expertTaskItem);
+
+        return expertTaskItem;
     }
 
     public int getUnqualifiedNumberInTask(int expertTaskId){           //查看任务下不合格数

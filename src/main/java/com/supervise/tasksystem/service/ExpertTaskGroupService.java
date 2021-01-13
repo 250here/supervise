@@ -39,7 +39,7 @@ public class ExpertTaskGroupService {
         return expertTaskGroup;
     }
 
-    public void addExpertTask(int expertTaskGroupId, int expertId, List<ExpertTaskItem> itemList){
+    public ExpertTask addExpertTask(int expertTaskGroupId, int expertId, List<ExpertTaskItem> itemList){
         ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
         Expert expert = expertDao.findById(expertId).get();
         ExpertTask expertTask = new ExpertTask();
@@ -50,9 +50,10 @@ public class ExpertTaskGroupService {
         expertTask.setExpertTaskItems(itemList);
 
         expertTaskDao.save(expertTask);
+        return expertTask;
     }
 
-    public void addExpertTask(ExpertTaskGroup expertTaskGroup, Expert expert, List<ExpertTaskItem> itemList){    //添加监管任务
+    public ExpertTask addExpertTask(ExpertTaskGroup expertTaskGroup, Expert expert, List<ExpertTaskItem> itemList){    //添加监管任务
         ExpertTask expertTask = new ExpertTask();
         expertTask.setFinished(false);
         expertTask.setExpertTaskGroup(expertTaskGroup);
@@ -60,6 +61,7 @@ public class ExpertTaskGroupService {
         expertTask.setExpertTaskItems(itemList);
 
         expertTaskDao.save(expertTask);
+        return expertTask;
     }
 
     public List<ExpertTask> getExperttTasks(int expertTaskGroupId){          //获得任务组下的所有任务

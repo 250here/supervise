@@ -26,7 +26,7 @@ public class MarketTaskService {
     ProductTypeDao productTypeDao;
 
 
-    public void addMarketTaskItem(int marketTaskId, int productTypeId){        //添加检测项
+    public MarketTaskItem addMarketTaskItem(int marketTaskId, int productTypeId){        //添加检测项
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         ProductType productType = productTypeDao.findById(productTypeId).get();
 
@@ -35,6 +35,8 @@ public class MarketTaskService {
         marketTaskItem.setMarketTask(marketTask);
         marketTaskItem.setProductType(productType);
         marketTaskItemDao.save(marketTaskItem);
+
+        return marketTaskItem;
     }
 
     public List<MarketTaskItem> getUnfinishedMarketTaskItems(int marketTaskId){                 //查找某市场任务下未完成的类别

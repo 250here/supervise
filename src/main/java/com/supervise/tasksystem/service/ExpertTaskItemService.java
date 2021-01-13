@@ -18,7 +18,7 @@ public class ExpertTaskItemService {
     @Autowired
     ExpertTaskService expertTaskService;
 
-    public void completeExpertTaskItem(int expertTaskItemId, int unqualifiedNumber, Date date){        //完成检测项
+    public ExpertTaskItem completeExpertTaskItem(int expertTaskItemId, int unqualifiedNumber, Date date){        //完成检测项
         ExpertTaskItem expertTaskItem = expertTaskItemDao.findById(expertTaskItemId).get();
         expertTaskItem.setFinished(true);
         expertTaskItem.setUnqualifiedNumber(unqualifiedNumber);
@@ -30,6 +30,7 @@ public class ExpertTaskItemService {
             expertTask.setFinished(true);
             expertTaskDao.save(expertTask);
         }
+        return expertTaskItem;
     }
 
 }
