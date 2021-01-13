@@ -109,13 +109,17 @@ create table EXPERT_TASK_ITEM
     UNQUALIFIED_NUMBER  INT     default 0 not null,
     IS_FINISHED         BOOLEAN default FALSE,
     FINISH_DATE         DATE              not null,
+    MARKET_ID           INT,
     constraint EXPERT_TASK_ITEM_PK
         primary key (EXPERT_TASK_ITEM_ID),
     constraint EXPERT_TASK_ITEM_EXPERT_TASK_EXPERT_TASK_ID_FK
         foreign key (EXPERT_TASK_ID) references EXPERT_TASK (EXPERT_TASK_ID),
+    constraint EXPERT_TASK_ITEM_MARKET_MARKET_ID_FK
+        foreign key (MARKET_ID) references MARKET (MARKET_ID),
     constraint EXPERT_TASK_ITEM_PRODUCT_TYPE_PRODUCT_TYPE_ID_FK
         foreign key (PRODUCT_TYPE_ID) references PRODUCT_TYPE (PRODUCT_TYPE_ID)
 );
+
 
 
 
