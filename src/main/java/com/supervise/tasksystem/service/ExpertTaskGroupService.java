@@ -39,6 +39,20 @@ public class ExpertTaskGroupService {
         return expertTaskGroup;
     }
 
+    public ExpertTask addExpertTask(int expertTaskGroupId, int expertId){
+        ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
+        Expert expert = expertDao.findById(expertId).get();
+        ExpertTask expertTask = new ExpertTask();
+
+        expertTask.setFinished(false);
+        expertTask.setExpertTaskGroup(expertTaskGroup);
+        expertTask.setExpert(expert);
+        expertTask.setExpertTaskItems(new ArrayList<ExpertTaskItem>());
+
+        expertTaskDao.save(expertTask);
+        return expertTask;
+    }
+
     public ExpertTask addExpertTask(int expertTaskGroupId, int expertId, List<ExpertTaskItem> itemList){
         ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTaskGroupId).get();
         Expert expert = expertDao.findById(expertId).get();

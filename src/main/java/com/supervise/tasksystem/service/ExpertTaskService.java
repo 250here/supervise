@@ -24,16 +24,19 @@ public class ExpertTaskService {
     ExpertTaskItemDao expertTaskItemDao;
     @Autowired
     ProductTypeDao productTypeDao;
+    @Autowired
+    MarketDao marketDao;
 
-    public ExpertTaskItem addExpertTaskItem(int expertTaskId, int productTypeId){        //添加检测项
+    public ExpertTaskItem addExpertTaskItem(int expertTaskId, int productTypeId, int marketId){        //添加检测项
         ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
         ProductType productType = productTypeDao.findById(productTypeId).get();
-
+        Market market = marketDao.findById(marketId).get();
 
         ExpertTaskItem expertTaskItem = new ExpertTaskItem();
         expertTaskItem.setFinished(false);
         expertTaskItem.setExpertTask(expertTask);
         expertTaskItem.setProductType(productType);
+        expertTaskItem.setMarket(market);
         expertTaskItemDao.save(expertTaskItem);
 
         return expertTaskItem;

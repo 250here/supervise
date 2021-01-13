@@ -42,6 +42,20 @@ public class MarketTaskGroupService {
         return marketTaskGroup;
     }
 
+    public MarketTask addMarketTask(int marketTaskGroupId, int marketId){
+        MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
+        Market market = marketDao.findById(marketId).get();
+        MarketTask marketTask = new MarketTask();
+
+        marketTask.setFinished(false);
+        marketTask.setMarketTaskGroup(marketTaskGroup);
+        marketTask.setMarket(market);
+        marketTask.setMarketTaskItems(new ArrayList<MarketTaskItem>());
+
+        marketTaskDao.save(marketTask);
+        return marketTask;
+    }
+
     public MarketTask addMarketTask(int marketTaskGroupId, int marketId, List<MarketTaskItem> itemList){
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTaskGroupId).get();
         Market market = marketDao.findById(marketId).get();
