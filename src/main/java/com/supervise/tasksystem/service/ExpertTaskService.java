@@ -78,12 +78,16 @@ public class ExpertTaskService {
         if((hasUnfinishedItem(expertTask.getExpertTaskId())==false && getLatestDate(expertTask.getExpertTaskId()).getTime() - expertTaskGroup.getDeadline().getTime()>0)          //未按时完成
                 || (hasUnfinishedItem(expertTask.getExpertTaskId())==true && time.getTime() - expertTaskGroup.getDeadline().getTime() > 0) ){
             grade -= 10;
+
             record += expert.getExpertName() + "未按时完成，扣10分，得分：" + grade + "\n";
         }
         if((hasUnfinishedItem(expertTask.getExpertTaskId())==false &&getLatestDate(expertTask.getExpertTaskId()).getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)
                 ||(hasUnfinishedItem(expertTask.getExpertTaskId())==true && time.getTime() - expertTaskGroup.getDeadline().getTime() > 1728000000)){  //完成时间超过20天
             grade -= 20;
             record += expert.getExpertName() + "超20天未完成，扣20分，得分：" + grade + "\n";
+        }
+        if(record.equals("")){
+            record += "无得分记录";
         }
         return record;
     }

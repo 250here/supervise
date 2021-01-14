@@ -83,6 +83,9 @@ public class MarketTaskService {
             grade -= 20;
             record += market.getMarketName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
+        if(record.equals("")){
+            record += "无得分记录";
+        }
         return record;
     }
 
