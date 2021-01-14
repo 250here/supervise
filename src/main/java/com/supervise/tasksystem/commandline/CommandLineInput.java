@@ -9,6 +9,12 @@ import java.util.*;
 
 public class CommandLineInput {
     private static Scanner input=new Scanner(System.in);
+    public static void resetInput(){
+        if(input!=null){
+            //input.close();
+        }
+        input=new Scanner(System.in);
+    }
     public static String nextLine(){
         return input.nextLine();
     }
@@ -61,6 +67,7 @@ public class CommandLineInput {
                 }
             }catch (Exception e){
                 System.out.println("需要一个合法输入.");
+                e.printStackTrace();
             }
 
         }
