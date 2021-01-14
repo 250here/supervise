@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,25 @@ public class ExpertTaskService {
             num += item.getUnqualifiedNumber();
         }
         return num;
+    }
+
+    public List<ExpertTaskItem> getUnfinishedExpertTaskItemsOfMarket(int expertId){         //查找某专家未完成的类别
+        List<ExpertTaskGroup> expertTaskGroupList = expertTaskGroupDao.findAll();
+        List<ExpertTaskItem> expertTaskItems = new ArrayList<>();
+        for (ExpertTaskGroup group : expertTaskGroupList){
+            List<ExpertTask> expertTaskList = group.getExpertTasks();
+            for (ExpertTask expertTask: expertTaskList){
+                for (ExpertTaskItem expertTaskItem : expertTask.getExpertTaskItems()){
+                    if (expertTaskItem.getExpertTask().getExpert().getExpertId() == expertId){
+                        expertTaskItems.add(expertTaskItem);
+                    }
+                }
+            }
+        }
+        if(expertTaskItems.size() == 0){
+            return null;
+        }
+        return expertTaskItems;
     }
 
     public List<ExpertTaskItem> getUnfinishedExpertTaskItems(int expertTaskId){                 //查找某专家任务下未完成的类别

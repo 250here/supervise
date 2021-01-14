@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,25 @@ public class MarketTaskService {
         return marketTaskItem;
     }
 
+    public List<MarketTaskItem> getUnfinishedMarketTaskItemsOfMarket(int marketId){          //查找某市场未完成的类别
+        List<MarketTaskGroup> marketTaskGroupList = marketTaskGroupDao.findAll();
+        List<MarketTaskItem> marketTaskItems = new ArrayList<>();
+        for (MarketTaskGroup group : marketTaskGroupList){
+            List<MarketTask> marketTaskList = group.getMarketTasks();
+            for (MarketTask marketTask: marketTaskList){
+                for (MarketTaskItem marketTaskItem : marketTask.getMarketTaskItems()){
+                    if (marketTaskItem.getMarketTask().getMarket().getMarketId() == marketId){
+                        marketTaskItems.add(marketTaskItem);
+                    }
+                }
+            }
+        }
+        if(marketTaskItems.size() == 0){
+            return null;
+        }
+        return marketTaskItems;
+    }
+
     public List<MarketTaskItem> getUnfinishedMarketTaskItems(int marketTaskId){                 //查找某市场任务下未完成的类别
         Optional<MarketTask> marketTaskOptional = marketTaskDao.findById(marketTaskId);
         MarketTask marketTask = marketTaskOptional.isPresent()?marketTaskOptional.get() : null;
@@ -49,7 +69,7 @@ public class MarketTaskService {
         return marketTaskItemDao.findByMarketTaskAndIsFinishedFalse(marketTask);
     }
 
-    public int getUnqualifiedNumberInTask(int marketTaskId){           //查看任务下不合格数
+    public int getUnqualifiedNumberInTask(int marketTaskId){                  //查看任务下不合格数
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         List<MarketTaskItem> marketTaskItems = marketTask.getMarketTaskItems();
         int num = 0;
