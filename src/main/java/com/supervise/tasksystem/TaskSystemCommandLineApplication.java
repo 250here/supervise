@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 //命令行是权宜之计，因此没有进行设计
-@Component
+//@Component
 public class TaskSystemCommandLineApplication implements CommandLineRunner {
     @Autowired
     CommandLine commandLine;
@@ -21,6 +21,7 @@ public class TaskSystemCommandLineApplication implements CommandLineRunner {
         while (true){
             try{
                 commandLine.run();
+                break;
             }catch (Exception e){
                 e.printStackTrace();
             }

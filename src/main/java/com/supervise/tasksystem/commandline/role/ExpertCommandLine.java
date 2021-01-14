@@ -44,7 +44,7 @@ public class ExpertCommandLine {
         }
     }
     private void showUnfinishedTasks(){
-        List<ExpertTaskItem> expertTaskItems=expertTaskService.getUnfinishedExpertTaskItems(expertId);
+        List<ExpertTaskItem> expertTaskItems=expertTaskService.getUnfinishedExpertTaskItemsOfMarket(expertId);
         if(expertTaskItems==null){
             return;
         }
