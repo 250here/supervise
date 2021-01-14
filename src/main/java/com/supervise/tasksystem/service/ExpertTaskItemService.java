@@ -4,10 +4,12 @@ import com.supervise.tasksystem.dao.ExpertTaskDao;
 import com.supervise.tasksystem.dao.ExpertTaskItemDao;
 import com.supervise.tasksystem.model.ExpertTask;
 import com.supervise.tasksystem.model.ExpertTaskItem;
+import com.supervise.tasksystem.util.VirtualTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ExpertTaskItemService {
@@ -18,8 +20,19 @@ public class ExpertTaskItemService {
     @Autowired
     ExpertTaskService expertTaskService;
 
-    public ExpertTaskItem completeExpertTaskItem(int expertTaskItemId, int unqualifiedNumber, Date date){        //完成检测项
-        ExpertTaskItem expertTaskItem = expertTaskItemDao.findById(expertTaskItemId).get();
+    public ExpertTaskItem completeExpertTaskItem(int expertId, int expertTaskItemId, int unqualifiedNumber){        //完成检测项
+
+        Date date = VirtualTime.getDate();
+        Optional<ExpertTaskItem> expertTaskItemOptional = expertTaskItemDao.findById(expertTaskItemId);
+        ExpertTaskItem expertTaskItem = expertTaskItemOptional.isPresent()?expertTaskItemOptional.get() : null;
+
+        if(expertTaskItem == null){
+            return expertTaskItem;
+        }
+        if(expertTaskItem.getExpertTask().getExpert().getExpertId() != expertId){
+            return null;
+        }
+
         expertTaskItem.setFinished(true);
         expertTaskItem.setUnqualifiedNumber(unqualifiedNumber);
         expertTaskItem.setFinishDate(date);
