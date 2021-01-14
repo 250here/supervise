@@ -179,7 +179,7 @@ public class SupervisorCommandLine {
                     break;
                 }
             }
-            System.out.println("是否继续添加市场？输入0表示否，1表示是：");
+            System.out.println("是否继续添加市场任务？输入0表示否，1表示是：");
             int anwser=CommandLineInput.chooseNumber(new int[]{0,1});
             if(anwser==0){
                 break;
@@ -188,7 +188,69 @@ public class SupervisorCommandLine {
 
     }
     private void createExpertTask(){
+        System.out.println("现在创建专家任务组。请输入截止日期：");
+        Date deadline=CommandLineInput.nextFutureDate();
+        ExpertTaskGroup expertTaskGroup=expertTaskGroupService.makeExpertTaskGroup(deadline);
+        int expertTaskGroupId=expertTaskGroup.getExpertTaskGroupId();
+        System.out.println("专家任务组创建成功。现在加入任务：");
+        List<Integer> selectedExpertIds=new ArrayList<>();
+        while(true){
+            if(selectedExpertIds.size()== infoSets.getExpertIds().length){
+                System.out.println("已经全部选中,不能继续选择");
+                break;
+            }
+            System.out.println("请从以下专家ID中选择一个：");
+            int expertId=CommandLineInput.chooseNumber(infoSets.getExpertIds());
+            if(selectedExpertIds.contains(expertId)){
+                System.out.println("已经选择过");
+                continue;
+            }
+            selectedExpertIds.add(expertId);
 
+            int expertTaskId=expertTaskGroupService.addExpertTask(expertTaskGroupId,expertId)
+                    .getExpertTaskId();
+
+            TextTreeGenerator text=new TextTreeGenerator();
+            text.addLine("请选择检查的产品类型：");
+            text.right();
+            for(ProductType productType: infoSets.getProducts()){
+                text.addPair("ID",productType.getProductTypeId());
+                text.addPair("名称",productType.getProductTypeName());
+                text.addLine();
+            }
+            text.left();
+            System.out.println(text.getText());
+            List<String> productTypeId_markrtIds=new ArrayList<>();
+            while(true){
+                if(productTypeId_markrtIds.size()==infoSets.getProductIds().length*infoSets.getMarketIds().length){
+                    System.out.println("已经全部选中,不能继续选择");
+                    break;
+                }
+                System.out.println("请从以下产品种类ID中选择一个：");
+                int productTypeId=CommandLineInput.chooseNumber(infoSets.getProductIds());
+                System.out.println("请从以下市场ID中选择一个：");
+                int marketId=CommandLineInput.chooseNumber(infoSets.getProductIds());
+                String productTypeId_markrtId=productTypeId+"_"+marketId;
+                if(productTypeId_markrtIds.contains(productTypeId_markrtId)){
+                    System.out.println("已经选择过");
+                    continue;
+                }
+                productTypeId_markrtIds.add(productTypeId_markrtId);
+
+                expertTaskService.addExpertTaskItem(expertTaskId,productTypeId,marketId);
+
+                System.out.println("是否继续添加产品种类和市场？输入0表示否，1表示是：");
+                int anwser=CommandLineInput.chooseNumber(new int[]{0,1});
+                if(anwser==0){
+                    break;
+                }
+            }
+            System.out.println("是否继续添加专家任务？输入0表示否，1表示是：");
+            int anwser=CommandLineInput.chooseNumber(new int[]{0,1});
+            if(anwser==0){
+                break;
+            }
+        }
     }
     private void showUnqualifIedNumberOfOneProductType(){
         TextTreeGenerator text=new TextTreeGenerator();
@@ -216,6 +278,9 @@ public class SupervisorCommandLine {
         System.out.println(gradeAndRecord);
     }
     private void showGradeOfOneExpert(){
-
+        System.out.println("请选择专家Id");
+        int expertId=CommandLineInput.chooseNumber(infoSets.getExpertIds());
+        String gradeAndRecord=expertTaskService.grade(expertId);
+        System.out.println(gradeAndRecord);
     }
 }
