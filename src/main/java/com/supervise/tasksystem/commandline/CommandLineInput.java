@@ -66,7 +66,7 @@ public class CommandLineInput {
         }
     }
     public static Date nextFutureDate(){
-        String outputText="请输入日期，格式yyyy-MM-dd,其中yyyy表示年，MM表示月，dd表示日";
+        String outputText="请输入日期，格式为“年-月-日”";
         while (true){
             try{
                 System.out.println(outputText);
@@ -84,7 +84,7 @@ public class CommandLineInput {
     }
 
     public static Date nextDate(){
-        String outputText="请输入日期，格式yyyy-MM-dd,其中yyyy表示年，MM表示月，dd表示日";
+        String outputText="请输入日期，格式为“年-月-日”";
         while (true){
             try{
                 System.out.println(outputText);

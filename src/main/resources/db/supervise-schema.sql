@@ -108,7 +108,7 @@ create table EXPERT_TASK_ITEM
     PRODUCT_TYPE_ID     INT,
     UNQUALIFIED_NUMBER  INT     default 0 not null,
     IS_FINISHED         BOOLEAN default FALSE,
-    FINISH_DATE         DATE              not null,
+    FINISH_DATE         DATE    default NULL,
     MARKET_ID           INT,
     constraint EXPERT_TASK_ITEM_PK
         primary key (EXPERT_TASK_ITEM_ID),

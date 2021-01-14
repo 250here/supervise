@@ -25,7 +25,7 @@ public class ExpertCommandLine {
         String outputStr="";
         outputStr+="请输入ID";
         System.out.println(outputStr);
-        expertId = CommandLineInput.chooseNumber(infoSets.getMarketIds());
+        expertId = CommandLineInput.chooseNumber(infoSets.getExpertIds());
         outputStr="";
         outputStr+="---专家主页---\n" +
                 "选择功能:\n" +
@@ -34,7 +34,7 @@ public class ExpertCommandLine {
                 "2 完成一项任务\n";
         while (true){
             System.out.print(outputStr);
-            int command= CommandLineInput.chooseNumber(new int[]{0,1,2,3,4,5,6});
+            int command= CommandLineInput.chooseNumber(new int[]{0,1,2});
             switch (command){
                 case 0:return;
                 case 1:showUnfinishedTasks();break;
@@ -45,6 +45,9 @@ public class ExpertCommandLine {
     }
     private void showUnfinishedTasks(){
         List<ExpertTaskItem> expertTaskItems=expertTaskService.getUnfinishedExpertTaskItems(expertId);
+        if(expertTaskItems==null){
+            return;
+        }
         TextTreeGenerator text=new TextTreeGenerator();
         text.addLine("未完成任务");
         text.right();

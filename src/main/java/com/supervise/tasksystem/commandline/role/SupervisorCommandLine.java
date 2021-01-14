@@ -75,11 +75,13 @@ public class SupervisorCommandLine {
                     text.addPair("任务项ID",expertTaskItem.getExpertTaskItemId());
                     text.addPair("产品种类",expertTaskItem.getProductType().getProductTypeName());
                     text.addPair("市场ID",expertTaskItem.getMarket().getMarketId());
+                    text.addPair("市场名称",expertTaskItem.getMarket().getMarketName());
                     text.addPair("是否完成",expertTaskItem.isFinished());
                     if(expertTaskItem.isFinished()){
                         text.addPair("完成日期",expertTaskItem.getFinishDate());
                         text.addPair("不合格数",expertTaskItem.getUnqualifiedNumber());
                     }
+                    text.addLine();
                 }
                 text.left();
             }
@@ -101,8 +103,8 @@ public class SupervisorCommandLine {
             text.addLine();
             for(MarketTask marketTask:marketTaskGroup.getMarketTasks()){
                 text.addPair("任务ID",marketTask.getMarketTaskId());
-                text.addPair("专家ID",marketTask.getMarket().getMarketId());
-                text.addPair("专家",marketTask.getMarket().getMarketName());
+                text.addPair("市场ID",marketTask.getMarket().getMarketId());
+                text.addPair("市场",marketTask.getMarket().getMarketName());
                 text.addPair("是否完成",marketTask.isFinished());
                 text.addLine();
                 text.right();
@@ -229,7 +231,7 @@ public class SupervisorCommandLine {
                 System.out.println("请从以下产品种类ID中选择一个：");
                 int productTypeId=CommandLineInput.chooseNumber(infoSets.getProductIds());
                 System.out.println("请从以下市场ID中选择一个：");
-                int marketId=CommandLineInput.chooseNumber(infoSets.getProductIds());
+                int marketId=CommandLineInput.chooseNumber(infoSets.getMarketIds());
                 String productTypeId_markrtId=productTypeId+"_"+marketId;
                 if(productTypeId_markrtIds.contains(productTypeId_markrtId)){
                     System.out.println("已经选择过");
