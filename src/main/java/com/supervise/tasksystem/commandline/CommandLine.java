@@ -18,13 +18,15 @@ public class CommandLine {
         String outputStr="";
         outputStr+="---系统主页---\n" +
                 "选择角色:\n" +
+                "0 退出\n" +
                 "1 市场\n" +
                 "2 专家\n" +
                 "3 监管局\n";
         while (true){
             System.out.println(outputStr);
-            int num=CommandLineInput.chooseNumber(new int[]{1,2,3});
+            int num=CommandLineInput.chooseNumber(new int[]{0,1,2,3});
             switch (num){
+                case 0:return;
                 case 1: marketCommandLine.run();break;
                 case 2: expertCommandLine.run();break;
                 case 3: supervisorCommandLine.run();break;
