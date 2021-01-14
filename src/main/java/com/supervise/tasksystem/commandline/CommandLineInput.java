@@ -19,6 +19,24 @@ public class CommandLineInput {
         }
         return inputStr;
     }
+    public static int nextPositiveIntOrZero(){
+        String outputText="请输入一个非负数。";
+        while (true){
+            int num;
+            try{
+                System.out.println(outputText);
+                num=input.nextInt();
+                if(num>=0){
+                    return num;
+                }else{
+                    throw new InputMismatchException();
+                }
+            }catch (InputMismatchException e){
+                System.out.println("需要一个合法输入.");
+            }
+
+        }
+    }
     public static int chooseNumber(int[] numsInput){
         int[] nums=Arrays.copyOf(numsInput,numsInput.length);
         Arrays.sort(nums);
@@ -47,7 +65,7 @@ public class CommandLineInput {
 
         }
     }
-    public static Date nextDate(){
+    public static Date nextFutureDate(){
         String outputText="请输入日期，格式yyyy-MM-dd,其中yyyy表示年，MM表示月，dd表示日";
         while (true){
             try{
@@ -64,6 +82,22 @@ public class CommandLineInput {
 
         }
     }
+
+    public static Date nextDate(){
+        String outputText="请输入日期，格式yyyy-MM-dd,其中yyyy表示年，MM表示月，dd表示日";
+        while (true){
+            try{
+                System.out.println(outputText);
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+                Date date = simpleDateFormat.parse(input.nextLine());
+                return date;
+            }catch (ParseException e){
+                System.out.println("需要一个合法输入.");
+            }
+
+        }
+    }
+
 
     public static int nextInt(){
         String outputText="请输入数字";

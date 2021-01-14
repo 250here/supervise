@@ -58,7 +58,7 @@ class MarketTaskTest {
     void testGrade(){
         MarketTask marketTask = marketTaskDao.findById(1).get();
 
-       String record = marketTaskService.grade(marketTask.getMarketTaskId(),VirtualTime.getDate());
+       String record = marketTaskService.grade(marketTask.getMarketTaskId());
 
 
 
