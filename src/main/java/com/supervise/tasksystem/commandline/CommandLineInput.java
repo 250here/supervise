@@ -25,13 +25,13 @@ public class CommandLineInput {
             int num;
             try{
                 System.out.println(outputText);
-                num=input.nextInt();
+                num=Integer.parseInt(input.nextLine());
                 if(num>=0){
                     return num;
                 }else{
                     throw new InputMismatchException();
                 }
-            }catch (InputMismatchException e){
+            }catch (Exception e){
                 System.out.println("需要一个合法输入.");
             }
 
@@ -53,13 +53,13 @@ public class CommandLineInput {
             int num;
             try{
                 System.out.println(outputText);
-                num=input.nextInt();
+                num=Integer.parseInt(input.nextLine());
                 if(Arrays.binarySearch(nums,num)>=0){
                     return num;
                 }else{
                     throw new InputMismatchException();
                 }
-            }catch (InputMismatchException e){
+            }catch (Exception e){
                 System.out.println("需要一个合法输入.");
             }
 
@@ -104,9 +104,9 @@ public class CommandLineInput {
         while (true){
             try{
                 System.out.println(outputText);
-                int num=input.nextInt();
+                int num=Integer.parseInt(input.nextLine());
                 return num;
-            }catch (InputMismatchException e){
+            }catch (Exception e){
                 System.out.println("需要一个合法输入.");
             }
 
