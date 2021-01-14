@@ -62,7 +62,8 @@ public class ExpertTaskService {
         return expertTaskItemDao.findByExpertTaskAndIsFinishedFalse(expertTask);
     }
 
-    public String grade(int expertTaskId, Date time){          //查看某专家得分情况
+    public String grade(int expertTaskId){          //查看某专家得分情况
+        Date time = VirtualTime.getDate();
         ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
         Expert expert = expertTask.getExpert();
         ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTask.getExpertTaskGroup().getExpertTaskGroupId()).get();

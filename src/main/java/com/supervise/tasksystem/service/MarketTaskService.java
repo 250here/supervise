@@ -59,7 +59,8 @@ public class MarketTaskService {
         return num;
     }
 
-    public String grade(int marketTaskId,Date time){          //查看该市场得分情况
+    public String grade(int marketTaskId){          //查看该市场得分情况
+        Date time = VirtualTime.getDate();
         MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
         Market market = marketTask.getMarket();
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTask.getMarketTaskGroup().getMarketTaskGroupId()).get();
