@@ -48,6 +48,9 @@ public class MarketCommandLine {
     }
     private void showUnfinishedTasks(){
         List<MarketTaskItem> marketTaskItems=marketTaskService.getUnfinishedMarketTaskItems(marketId);
+        if(marketTaskItems==null){
+            return;
+        }
         TextTreeGenerator text=new TextTreeGenerator();
         text.addLine("未完成任务");
         text.right();
