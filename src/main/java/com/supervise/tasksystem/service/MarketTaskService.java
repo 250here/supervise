@@ -61,12 +61,19 @@ public class MarketTaskService {
 
     public String grade(int marketTaskId){          //查看该市场得分情况
         Date time = VirtualTime.getDate();
-        MarketTask marketTask = marketTaskDao.findById(marketTaskId).get();
+        Optional<MarketTask> marketTaskOptional = marketTaskDao.findById(marketTaskId);
+        MarketTask marketTask = marketTaskOptional.isPresent()?marketTaskOptional.get() : null;
+        int grade = 0;
+        String record = "";
+        if(marketTask == null){
+            record += "无得分记录,得分：0";
+            return record;
+        }
         Market market = marketTask.getMarket();
         MarketTaskGroup marketTaskGroup = marketTaskGroupDao.findById(marketTask.getMarketTaskGroup().getMarketTaskGroupId()).get();
         List<MarketTaskItem> marketTaskItemList = marketTask.getMarketTaskItems();
-        int grade = 0;
-        String record = "";
+
+
         if(hasUnfinishedItem(marketTask.getMarketTaskId())==false && getLatestDate(marketTask.getMarketTaskId()).compareTo(marketTaskGroup.getDeadline())!=1){
             grade +=10;
             record += market.getMarketName() + "按时完成，得分：" + grade + "\n";
@@ -84,7 +91,7 @@ public class MarketTaskService {
             record += market.getMarketName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
         if(record.equals("")){
-            record += "无得分记录";
+            record += "无得分记录,得分：0";
         }
         return record;
     }

@@ -64,12 +64,19 @@ public class ExpertTaskService {
 
     public String grade(int expertTaskId){          //查看某专家得分情况
         Date time = VirtualTime.getDate();
-        ExpertTask expertTask = expertTaskDao.findById(expertTaskId).get();
+        Optional<ExpertTask> expertTaskOptional = expertTaskDao.findById(expertTaskId);
+        ExpertTask expertTask = expertTaskOptional.isPresent()?expertTaskOptional.get() : null;
+        int grade = 0;
+        String record = "";
+
+        if(expertTask == null){
+            record += "无得分记录,得分：0";
+            return record;
+        }
         Expert expert = expertTask.getExpert();
         ExpertTaskGroup expertTaskGroup = expertTaskGroupDao.findById(expertTask.getExpertTaskGroup().getExpertTaskGroupId()).get();
         List<ExpertTaskItem> expertTaskItemList = expertTask.getExpertTaskItems();
-        int grade = 0;
-        String record = "";
+
         if(hasUnfinishedItem(expertTask.getExpertTaskId())==false && getLatestDate(expertTask.getExpertTaskId()).compareTo(expertTaskGroup.getDeadline())!=1){
             grade +=10;
             record += expert.getExpertName() + "按时完成，得分：" + grade + "\n";
@@ -87,7 +94,7 @@ public class ExpertTaskService {
             record += expert.getExpertName() + "超20天未完成，扣20分，得分：" + grade + "\n";
         }
         if(record.equals("")){
-            record += "无得分记录";
+            record += "无得分记录，得分：0";
         }
         return record;
     }
