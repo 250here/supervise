@@ -3,9 +3,7 @@ package com.supervise.tasksystem;
 import com.supervise.tasksystem.commandline.CommandLine;
 import com.supervise.tasksystem.commandline.CommandLineInput;
 import com.supervise.tasksystem.model.*;
-import com.supervise.tasksystem.service.ExpertTaskGroupService;
-import com.supervise.tasksystem.service.MarketTaskGroupService;
-import com.supervise.tasksystem.service.ProductTypeService;
+import com.supervise.tasksystem.service.*;
 import com.supervise.tasksystem.util.VirtualTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +32,10 @@ class TaskSystemCommandLineApplicationTest {
     ExpertTaskGroupService expertTaskGroupService;
     @Autowired
     MarketTaskGroupService marketTaskGroupService;
+    @Autowired
+    ExpertTaskService expertTaskService;
+    @Autowired
+    MarketTaskService marketTaskService;
     @Autowired
     ProductTypeService productTypeService;
     @Autowired
@@ -93,6 +95,18 @@ class TaskSystemCommandLineApplicationTest {
         changeInputStream(4);
         commandLine.run();
 
+        String expertGrade=expertTaskService.gradeOfExpert(3);
+        assertGradeEquals(-40,expertGrade);
+
+        String marketGrade=marketTaskService.gradeOfMarket(1);
+        assertGradeEquals(-20,marketGrade);
+    }
+
+    private void assertGradeEquals(int expect,String actual){
+        String[] actualStrs=actual.split("：");
+        String actualNumberStr=actualStrs[actualStrs.length-1];
+        int actualNumber=Integer.parseInt(actualNumberStr);
+        assertEquals(expect,actualNumber);
     }
 
     @AfterEach

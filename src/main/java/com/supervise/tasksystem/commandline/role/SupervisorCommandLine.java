@@ -276,13 +276,13 @@ public class SupervisorCommandLine {
     private void showGradeOfOneMarket(){
         System.out.println("请选择市场Id");
         int marketId=CommandLineInput.chooseNumber(infoSets.getMarketIds());
-        String gradeAndRecord=marketTaskService.grade(marketId);
+        String gradeAndRecord=marketTaskService.gradeOfMarket(marketId);
         System.out.println(gradeAndRecord);
     }
     private void showGradeOfOneExpert(){
         System.out.println("请选择专家Id");
         int expertId=CommandLineInput.chooseNumber(infoSets.getExpertIds());
-        String gradeAndRecord=expertTaskService.grade(expertId);
+        String gradeAndRecord=expertTaskService.gradeOfExpert(expertId);
         System.out.println(gradeAndRecord);
     }
 }
