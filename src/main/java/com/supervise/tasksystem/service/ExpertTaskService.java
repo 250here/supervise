@@ -53,7 +53,7 @@ public class ExpertTaskService {
         return num;
     }
 
-    public List<ExpertTaskItem> getUnfinishedExpertTaskItemsOfMarket(int expertId){         //查找某专家未完成的类别
+    public List<ExpertTaskItem> getUnfinishedExpertTaskItemsOfExpert(int expertId){         //查找某专家未完成的类别
         List<ExpertTaskGroup> expertTaskGroupList = expertTaskGroupDao.findAll();
         List<ExpertTaskItem> expertTaskItems = new ArrayList<>();
         for (ExpertTaskGroup group : expertTaskGroupList){
