@@ -40,7 +40,7 @@ public class MarketTaskService {
         return marketTaskItem;
     }
 
-    public List<MarketTaskItem> getUnfinishedMarketTaskItemsOfMarket(int marketId){          //查找某市场未完成的类别
+    public List<MarketTaskItem> getAllMarketTaskItemsOfMarket(int marketId){          //查找某市场下所有任务
         List<MarketTaskGroup> marketTaskGroupList = marketTaskGroupDao.findAll();
         List<MarketTaskItem> marketTaskItems = new ArrayList<>();
         for (MarketTaskGroup group : marketTaskGroupList){
@@ -57,6 +57,20 @@ public class MarketTaskService {
             return null;
         }
         return marketTaskItems;
+    }
+
+    public List<MarketTaskItem> getUnfinishedMarketTaskItemsOfMarket(int marketId) {          //查找某市场未完成的类别
+        List<MarketTaskItem> allMarketTaskItemList = getAllMarketTaskItemsOfMarket(marketId);
+        List<MarketTaskItem> marketTaskItemList = new ArrayList<>();
+        for (MarketTaskItem marketTaskItem :allMarketTaskItemList){
+            if (marketTaskItem.isFinished() == false){
+                marketTaskItemList.add(marketTaskItem);
+            }
+        }
+        if(marketTaskItemList.size() == 0){
+            return null;
+        }
+        return marketTaskItemList;
     }
 
     public List<MarketTaskItem> getUnfinishedMarketTaskItems(int marketTaskId){                 //查找某市场任务下未完成的类别
@@ -77,6 +91,37 @@ public class MarketTaskService {
             num += item.getUnqualifiedNumber();
         }
         return num;
+    }
+
+    public String gradeOfMarket(int marketId){                         //查看某市场得分情况
+        List<MarketTaskItem> marketTaskItems = getAllMarketTaskItemsOfMarket(marketId);
+        int grade = 0;
+        String record = "";
+        if(marketTaskItems.size() == 0){
+            record += "无得分记录,得分：0";
+            return record;
+        }
+        for (MarketTaskItem item : marketTaskItems){
+            Date deadLine = item.getMarketTask().getMarketTaskGroup().getDeadline();
+            if(item.isFinished() == true && passDate(deadLine,item.getFinishDate()) == false){
+                grade += 10;
+                record += "检测任务项ID" + item.getMarketTaskItemId() + "：按时完成，+10分\n";
+            }
+            if((item.isFinished() == true && passDate(deadLine,item.getFinishDate()) == true)||
+                    (item.isFinished() == false && passDate(deadLine,VirtualTime.getDate()) == true)){
+                grade -= 10;
+                record += "检测任务项ID" + item.getMarketTaskItemId() + "：未按时完成，-10分\n";
+            }
+            if ((item.isFinished() == true && passTwentyDays(deadLine,item.getFinishDate()) == true)||
+                    (item.isFinished() == false && passTwentyDays(deadLine,VirtualTime.getDate()) == true)){
+                grade -= 20;
+                record += "检测任务项ID" + item.getMarketTaskItemId() + "：超20天未完成，-20分\n";
+            }
+        }
+        if(record.equals("")){
+            record += "无得分记录，得分：0";
+        }
+        return record;
     }
 
     public String grade(int marketTaskId){          //查看该市场得分情况
@@ -146,5 +191,18 @@ public class MarketTaskService {
             e.printStackTrace();
         }
         return null;
+    }
+    public boolean passDate(Date endTime, Date date){         //是否超时
+        if(date.compareTo(endTime)<=0){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean passTwentyDays(Date endTime, Date date){         //是否超过20天
+        if( date.getTime() - endTime.getTime() > 1728000000){
+            return true;
+        }
+        return false;
     }
 }

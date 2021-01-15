@@ -53,7 +53,7 @@ public class ExpertTaskService {
         return num;
     }
 
-    public List<ExpertTaskItem> getUnfinishedExpertTaskItemsOfExpert(int expertId){         //查找某专家未完成的类别
+    public List<ExpertTaskItem> getAllExpertTaskItemsOfExpert(int expertId){         //查找某专家所有任务类别
         List<ExpertTaskGroup> expertTaskGroupList = expertTaskGroupDao.findAll();
         List<ExpertTaskItem> expertTaskItems = new ArrayList<>();
         for (ExpertTaskGroup group : expertTaskGroupList){
@@ -72,6 +72,20 @@ public class ExpertTaskService {
         return expertTaskItems;
     }
 
+    public List<ExpertTaskItem> getUnfinishedExpertTaskItemsOfExpert(int expertId) {         //查找某专家未完成的类别
+        List<ExpertTaskItem> allExpertTaskItems = getAllExpertTaskItemsOfExpert(expertId);
+        List<ExpertTaskItem> expertTaskItemList = new ArrayList<>();
+        for (ExpertTaskItem expertTaskItem : allExpertTaskItems){
+            if(expertTaskItem.isFinished() == false){
+                expertTaskItemList.add(expertTaskItem);
+            }
+        }
+        if(expertTaskItemList.size() == 0){
+            return null;
+        }
+        return expertTaskItemList;
+    }
+
     public List<ExpertTaskItem> getUnfinishedExpertTaskItems(int expertTaskId){                 //查找某专家任务下未完成的类别
         Optional<ExpertTask> expertTaskOptional = expertTaskDao.findById(expertTaskId);
         ExpertTask expertTask = expertTaskOptional.isPresent()?expertTaskOptional.get() : null;
@@ -82,7 +96,38 @@ public class ExpertTaskService {
         return expertTaskItemDao.findByExpertTaskAndIsFinishedFalse(expertTask);
     }
 
-    public String grade(int expertTaskId){          //查看某专家得分情况
+    public String gradeOfExpert(int expertId){                         //查看某专家得分情况
+        List<ExpertTaskItem> expertTaskItems = getAllExpertTaskItemsOfExpert(expertId);
+        int grade = 0;
+        String record = "";
+        if(expertTaskItems.size() == 0){
+            record += "无得分记录,得分：0";
+            return record;
+        }
+        for (ExpertTaskItem item : expertTaskItems){
+            Date deadLine = item.getExpertTask().getExpertTaskGroup().getDeadline();
+            if(item.isFinished() == true && passDate(deadLine,item.getFinishDate()) == false){
+                grade += 10;
+                record += "检测任务项ID" + item.getExpertTaskItemId() + "：按时完成，+10分\n";
+            }
+            if((item.isFinished() == true && passDate(deadLine,item.getFinishDate()) == true)||
+                    (item.isFinished() == false && passDate(deadLine,VirtualTime.getDate()) == true)){
+                grade -= 10;
+                record += "检测任务项ID" + item.getExpertTaskItemId() + "：未按时完成，-10分\n";
+            }
+            if ((item.isFinished() == true && passTwentyDays(deadLine,item.getFinishDate()) == true)||
+                    (item.isFinished() == false && passTwentyDays(deadLine,VirtualTime.getDate()) == true)){
+                grade -= 20;
+                record += "检测任务项ID" + item.getExpertTaskItemId() + "：超20天未完成，-20分\n";
+            }
+        }
+        if(record.equals("")){
+            record += "无得分记录，得分：0";
+        }
+        return record;
+    }
+
+    public String grade(int expertTaskId){          //查看某专家任务得分情况
         Date time = VirtualTime.getDate();
         Optional<ExpertTask> expertTaskOptional = expertTaskDao.findById(expertTaskId);
         ExpertTask expertTask = expertTaskOptional.isPresent()?expertTaskOptional.get() : null;
@@ -149,5 +194,19 @@ public class ExpertTaskService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean passDate(Date endTime, Date date){         //是否超时
+        if(date.compareTo(endTime)<=0){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean passTwentyDays(Date endTime, Date date){         //是否超过20天
+        if( date.getTime() - endTime.getTime() > 1728000000){
+            return true;
+        }
+        return false;
     }
 }
