@@ -47,7 +47,7 @@ public class MarketCommandLine {
         }
     }
     private void showUnfinishedTasks(){
-        List<MarketTaskItem> marketTaskItems=marketTaskService.getUnfinishedMarketTaskItems(marketId);
+        List<MarketTaskItem> marketTaskItems=marketTaskService.getUnfinishedMarketTaskItemsOfMarket(marketId);
         if(marketTaskItems==null){
             return;
         }
