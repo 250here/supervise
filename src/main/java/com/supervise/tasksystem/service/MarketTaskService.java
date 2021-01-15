@@ -120,6 +120,8 @@ public class MarketTaskService {
         }
         if(record.equals("")){
             record += "无得分记录，得分：0";
+        }else {
+            record += "该市场总得分：" + grade;
         }
         return record;
     }

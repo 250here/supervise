@@ -123,6 +123,8 @@ public class ExpertTaskService {
         }
         if(record.equals("")){
             record += "无得分记录，得分：0";
+        }else {
+            record += "该专家总得分：" + grade;
         }
         return record;
     }
